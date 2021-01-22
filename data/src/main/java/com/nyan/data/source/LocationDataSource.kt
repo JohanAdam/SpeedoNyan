@@ -21,7 +21,7 @@ class LocationDataSource(context: FragmentActivity) {
     companion object {
         private const val TAG = "LocationDataSource"
 //        val LOCATION_REQUEST_INTERVAL = 10000L
-        val LOCATION_REQUEST_INTERVAL = 1000L
+        val LOCATION_REQUEST_INTERVAL = 5000L
 //        val LOCATION_REQUEST_FASTEST_INTERVAL = 5000L
         val LOCATION_REQUEST_FASTEST_INTERVAL = 10L
     }

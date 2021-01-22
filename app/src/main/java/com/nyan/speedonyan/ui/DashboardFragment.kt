@@ -14,6 +14,7 @@ import com.nyan.speedonyan.model.LocationModel
 import com.nyan.speedonyan.utils.PermissionManager
 import com.nyan.speedonyan.viewmodel.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -57,6 +58,9 @@ class DashboardFragment : Fragment() {
             navigation.observe(viewLifecycleOwner, Observer {
                 onNavigation(it)
             })
+            updateCounter.observe(viewLifecycleOwner, Observer {
+                tv_ping.text = "$it ms"
+            })
         }
 
         requestLocationPermission()
@@ -66,7 +70,8 @@ class DashboardFragment : Fragment() {
         Log.d(TAG, "onLocationModel: ")
         location?.speed.let {
             val value = it!!.toFloat().roundToInt().times(3.6)
-            binding.tvSpeedo.text = "Speed " + value + " Lng " + location?.longitude
+            binding.tvSpeedo.text = value.toInt().toString()
+            binding.tvLatitude.text = "Lat ${location?.latitude} Lon ${location?.longitude}"
         }
     }
 

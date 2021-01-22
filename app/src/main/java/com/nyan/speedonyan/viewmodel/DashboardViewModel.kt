@@ -1,12 +1,13 @@
 package com.nyan.speedonyan.viewmodel
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import com.nyan.data.livedata.SingleLiveEvent
 import com.nyan.data.model.LocationDataModel
 import com.nyan.domain.usecases.GetLocationUseCase
@@ -26,12 +27,28 @@ constructor(
     companion object {
         private val TAG = "DashboardViewModel"
     }
-    
+
     private val _location = MutableLiveData<LocationModel>()
     val location : LiveData<LocationModel> get() = _location
 
     private val _navigation = SingleLiveEvent<Navigation>()
     val navigation : LiveData<Navigation> get() = _navigation
+
+
+    val mainHandler = Handler(Looper.getMainLooper())
+    private var _updateCounter = MutableLiveData<Int>()
+    val updateCounter : LiveData<Int> get() = _updateCounter
+
+    init {
+        mainHandler.post(object : Runnable {
+            override fun run() {
+//                if (_updateCounter != null) {
+                _updateCounter.postValue(_updateCounter.value?.plus(1))
+                mainHandler.postDelayed(this, 500)
+//                }
+            }
+        })
+    }
 
     fun onRequestPermissionResult(requestCode: Int, grantResults: IntArray) {
         Log.d(TAG, "onRequestPermissionResult: ")
@@ -62,6 +79,7 @@ constructor(
 
     private fun onGetLocationSuccess(locationModel: LocationModel) {
         Log.d(TAG, "onGetLocationSuccess: ")
+        _updateCounter.postValue(0)
         _location.postValue(locationModel)
     }
 
@@ -70,8 +88,12 @@ constructor(
         Log.e(DashboardViewModel::class.simpleName, "onGetLocationError " + throwable.message.orEmpty())
     }
 
+    override fun onCleared() {
+        super.onCleared()
+//        mainHandler.removeCallbacks()
+    }
+
     sealed class Navigation {
         object Finish : Navigation()
     }
-
 }

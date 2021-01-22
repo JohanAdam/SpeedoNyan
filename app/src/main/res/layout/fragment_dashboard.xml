@@ -6,7 +6,20 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_ping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintHorizontal_bias="0"
+            tools:text="0ms"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:id="@+id/tv_speedo"
@@ -32,9 +45,22 @@
             app:layout_constraintBaseline_toBaselineOf="@id/tv_speedo"
             app:layout_constraintVertical_bias="1"
             app:layout_constraintHorizontal_bias="0"
-            tools:text="kmh"
+            android:text="kmh"
             android:textSize="28sp"
             android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/tv_latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_speedo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="1"
+            tools:text="Lat : GGWP   Lng: GGWP"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
